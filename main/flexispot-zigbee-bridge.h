@@ -3,18 +3,37 @@
 #include "esp_zigbee_core.h"
 
 
+#define TAG "FLEXISPOT_ZB_BRIDGE"
 
 /* Zigbee configuration */
 #define INSTALLCODE_POLICY_ENABLE       false    /* enable the install code policy for security */
 #define ED_AGING_TIMEOUT                ESP_ZB_ED_AGING_TIMEOUT_64MIN
 #define ED_KEEP_ALIVE                   3000    /* 3000 millisecond */
-#define HA_ONOFF_SWITCH_ENDPOINT        1           /* esp switch device endpoint */
-#define ESP_ZB_PRIMARY_CHANNEL_MASK     (1l << 11)  /* Zigbee primary channel mask use in the example */
-#define ESP_ZB_SECONDARY_CHANNEL_MASK   (1l << 13)  /* Zigbee primary channel mask use in the example */
+
+#define ZB_CHANNEL_MASK(ch) (1UL << (ch))
+#define ESP_ZB_PRIMARY_CHANNEL_MASK_ALL   ( \
+    ZB_CHANNEL_MASK(11) | ZB_CHANNEL_MASK(12) | ZB_CHANNEL_MASK(13) | ZB_CHANNEL_MASK(14) | \
+    ZB_CHANNEL_MASK(15) | ZB_CHANNEL_MASK(16) | ZB_CHANNEL_MASK(17) | ZB_CHANNEL_MASK(18) | \
+    ZB_CHANNEL_MASK(19) | ZB_CHANNEL_MASK(20) | ZB_CHANNEL_MASK(21) | ZB_CHANNEL_MASK(22) | \
+    ZB_CHANNEL_MASK(23) | ZB_CHANNEL_MASK(24) | ZB_CHANNEL_MASK(25) | ZB_CHANNEL_MASK(26)   \
+)
+
+#define ESP_ZB_PRIMARY_CHANNEL_MASK     ZB_CHANNEL_MASK(25)  /* Zigbee primary channel derived from home assistant config */
+#define ESP_ZB_SECONDARY_CHANNEL_MASK   ESP_ZB_PRIMARY_CHANNEL_MASK_ALL  /* Zigbee secondary channel find all */
+
+#define ENDPOINT_ID 1
+
+#define ENDPOINT_CONFIG()                                           \
+    {                                                               \
+        .endpoint = ENDPOINT_ID,                                    \
+        .app_device_id = ESP_ZB_ZCL_CLUSTER_ID_ANALOG_VALUE,        \
+        .app_profile_id = ESP_ZB_AF_HA_PROFILE_ID,                  \
+        .app_device_version = 0                                     \
+    }                                                               \
 
 /* Basic manufacturer information */
-#define ESP_MANUFACTURER_NAME "\x09""ESPRESSIF"      /* Customized manufacturer name */
-#define ESP_MODEL_IDENTIFIER "\x07"CONFIG_IDF_TARGET /* Customized model identifier */
+#define ESP_MANUFACTURER_NAME "\x09" "MAXBAS"      /* Customized manufacturer name */
+#define ESP_MODEL_IDENTIFIER "\x07" "FLX_BRDG" /* Customized model identifier */
 
 #define ESP_ZB_ZED_CONFIG()                                         \
     {                                                               \
