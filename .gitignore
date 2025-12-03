@@ -3,3 +3,5 @@ build
 managed_components
 sdk_config.old
 dependencies.lock
+media
+debug_artifacts

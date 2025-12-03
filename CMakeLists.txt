@@ -3,6 +3,7 @@
 cmake_minimum_required(VERSION 3.22)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-idf_build_set_property(MINIMAL_BUILD ON)
+# Disable MINIMAL_BUILD so menuconfig shows optional component Kconfig entries like GDB Stub
+idf_build_set_property(MINIMAL_BUILD OFF)
 
 project(flexispot-zigbee-bridge)

@@ -21,11 +21,11 @@
 #define ESP_ZB_PRIMARY_CHANNEL_MASK     ZB_CHANNEL_MASK(25)  /* Zigbee primary channel derived from home assistant config */
 #define ESP_ZB_SECONDARY_CHANNEL_MASK   ESP_ZB_PRIMARY_CHANNEL_MASK_ALL  /* Zigbee secondary channel find all */
 
-#define ENDPOINT_ID 1
+#define ZB_EP_ID_HEIGHT 1
 
 #define ENDPOINT_CONFIG()                                           \
     {                                                               \
-        .endpoint = ENDPOINT_ID,                                    \
+        .endpoint = ZB_EP_ID_HEIGHT,                                \
         .app_device_id = ESP_ZB_ZCL_CLUSTER_ID_ANALOG_VALUE,        \
         .app_profile_id = ESP_ZB_AF_HA_PROFILE_ID,                  \
         .app_device_version = 0                                     \
